@@ -3,10 +3,7 @@
   "builds": [
     {
       "src": "server.js",
-      "use": "@vercel/node",
-      "config": {
-        "NODE_ENV": "production"
-      }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -14,11 +11,5 @@
       "src": "/.*",
       "dest": "server.js"
     }
-  ],
-  "env": {
-    "DB_USERNAME": "bazoka2023",
-    "DB_PASSWORD": "KOiHEHoY3nrqRapW",
-    "DB_HOST": "bazoka.sp29vkb.mongodb.net",
-    "DB_NAME": "bazoka"
-  }
+  ]
 }
