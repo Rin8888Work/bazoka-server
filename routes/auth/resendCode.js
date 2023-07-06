@@ -34,6 +34,7 @@ router.post("/", async (req, res) => {
     await sendVerificationEmail(user.email, verificationCode);
     user.verificationCode = verificationCode;
     user.codeExpireTime = codeExpireTime;
+    await user.save();
 
     responseJson({
       res,
