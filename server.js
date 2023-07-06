@@ -1,10 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const { API_CONFIGS } = require("./config");
+const { responseJson } = require("./helpers");
 require("dotenv").config();
 
 const app = express();
-app.use(express.json());
 const port = 3000;
+
+app.use(express.json());
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -18,15 +21,19 @@ mongoose
     console.log("Error connecting to MongoDB Atlas:", error);
   });
 
-// Import các module định tuyến
-const signupRouter = require("./routes/auth/signup");
-const loginRouter = require("./routes/auth/login");
-
 // Sử dụng các module định tuyến
-app.use("/signup", signupRouter);
-app.use("/login", loginRouter);
+API_CONFIGS.forEach(({ prefix, items }) => {
+  items.forEach((api) => {
+    app.use(`${prefix}${api.path}`, api.handle);
+  });
+});
+
 app.get("/", (req, res) => {
-  res.json({ message: "Server is running" });
+  responseJson({ res, message: "Server is running" });
+});
+
+app.use((req, res) => {
+  responseJson({ res, message: "Route not found", statusCode: 404 });
 });
 
 app.listen(port, () => {
