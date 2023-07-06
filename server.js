@@ -33,6 +33,9 @@ const loginRouter = require("./routes/auth/login");
 // Sử dụng các module định tuyến
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
+app.get("/", (req, res) => {
+  res.json({ message: "Server is running" });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
