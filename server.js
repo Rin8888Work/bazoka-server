@@ -6,19 +6,11 @@ const app = express();
 app.use(express.json());
 const port = 3000;
 
-const username = process.env.DB_USERNAME;
-const password = process.env.DB_PASSWORD;
-const host = process.env.DB_HOST;
-const dbName = process.env.DB_NAME;
-
 mongoose
-  .connect(
-    `mongodb+srv://${username}:${password}@${host}/${dbName}?retryWrites=true&w=majority`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Connected to MongoDB Atlas");
   })
