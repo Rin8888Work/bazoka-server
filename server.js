@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
 });
 
 app.use((req, res) => {
-  responseJson({ res, message: "Route not found", statusCode: 404 });
+  responseJson({ res, message: "Route not found!", statusCode: 404 });
 });
 
 app.listen(port, () => {
