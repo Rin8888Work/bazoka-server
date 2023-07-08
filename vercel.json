@@ -6,7 +6,6 @@
       "use": "@vercel/node"
     }
   ],
-  "buildCommand": "rm -rf ./temp && git clone https://github.com/Rin8888Work/bazoka-server.git ./temp && cd ./temp && npm install && mv ./* ../ && cd .. && rm -rf ./temp",
   "routes": [
     {
       "src": "/(.*)",
