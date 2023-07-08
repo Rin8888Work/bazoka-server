@@ -1,13 +1,9 @@
-const moduleAliases = require("module-alias");
-moduleAliases.addAliases({
-  "#": __dirname,
-});
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 
-const { API_CONFIGS } = require("#/config/api");
-const { responseJson } = require("#/helpers");
+const { API_CONFIGS } = require("./config/api");
+const { responseJson } = require("./helpers");
 
 const app = express();
 const port = 3000;

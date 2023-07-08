@@ -1,11 +1,15 @@
 const express = require("express");
-const { User } = require("#/models/UserSchema");
-const { responseJson, createHash, getFieldsFromModel } = require("#/helpers");
+const { User } = require("../../models/UserSchema");
+const {
+  responseJson,
+  createHash,
+  getFieldsFromModel,
+} = require("../../helpers");
 const moment = require("moment");
-const { CODE_TYPE } = require("#/config/codeType");
-const { createToken } = require("#/helpers/jwt");
-const { validateDynamicFields } = require("#/helpers/validateReq");
-const addDefaultScreensForAccount = require("#/utils/addDefaultScreensForAccount");
+const { CODE_TYPE } = require("../../config/codeType");
+const { createToken } = require("../../helpers/jwt");
+const { validateDynamicFields } = require("../../helpers/validateReq");
+const addDefaultScreensForAccount = require("../../utils/addDefaultScreensForAccount");
 
 const router = express.Router();
 

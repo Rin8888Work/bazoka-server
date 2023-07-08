@@ -1,12 +1,12 @@
 // routes/account/update.js
 const express = require("express");
-const { User } = require("#/models/UserSchema");
+const { User } = require("../../models/UserSchema");
 const {
   responseJson,
   responseCatchError,
   getFieldsFromModel,
-} = require("#/helpers");
-const { verifyToken } = require("#/helpers/jwt");
+} = require("../../helpers");
+const { verifyToken } = require("../../helpers/jwt");
 
 const router = express.Router();
 

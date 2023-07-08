@@ -1,6 +1,6 @@
 const express = require("express");
-const { responseJson, responseCatchError } = require("#/helpers");
-const addDefaultScreensForAccount = require("#/utils/addDefaultScreensForAccount");
+const { responseJson, responseCatchError } = require("../../helpers");
+const addDefaultScreensForAccount = require("../../utils/addDefaultScreensForAccount");
 
 const router = express.Router();
 

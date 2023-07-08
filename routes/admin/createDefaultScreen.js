@@ -1,9 +1,9 @@
 const express = require("express");
-const { Screen } = require("#/models/ScreenSchema");
-const { Role } = require("#/models/RoleSchema");
-const { Package } = require("#/models/PackageSchema");
-const { responseJson, responseCatchError } = require("#/helpers");
-const { screensDefault } = require("#/config/screensDefault");
+const { Screen } = require("../../models/ScreenSchema");
+const { Role } = require("../../models/RoleSchema");
+const { Package } = require("../../models/PackageSchema");
+const { responseJson, responseCatchError } = require("../../helpers");
+const { screensDefault } = require("../../config/screensDefault");
 
 const router = express.Router();
 

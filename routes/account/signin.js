@@ -1,10 +1,14 @@
 // routes/login.js
 const express = require("express");
-const { User } = require("#/models/UserSchema");
-const { responseJson, compareHash, getFieldsFromModel } = require("#/helpers");
-const { createToken } = require("#/helpers/jwt");
-const { validateDynamicFields } = require("#/helpers/validateReq");
-const { UNVERIFY_ACCOUNT } = require("#/config/errorCode");
+const { User } = require("../../models/UserSchema");
+const {
+  responseJson,
+  compareHash,
+  getFieldsFromModel,
+} = require("../../helpers");
+const { createToken } = require("../../helpers/jwt");
+const { validateDynamicFields } = require("../../helpers/validateReq");
+const { UNVERIFY_ACCOUNT } = require("../../config/errorCode");
 
 const router = express.Router();
 

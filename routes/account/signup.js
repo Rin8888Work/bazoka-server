@@ -1,19 +1,19 @@
 // routes/signup.js
 const express = require("express");
-const { User } = require("#/models/UserSchema");
+const { User } = require("../../models/UserSchema");
 const {
   responseJson,
   generateVerificationCode,
   createHash,
   responseCatchError,
   convertIdToObjectId,
-} = require("#/helpers");
+} = require("../../helpers");
 const router = express.Router();
-const { sendVerificationEmail } = require("#/helpers/gmailClient");
-const { CODE_TYPE } = require("#/config/codeType");
-const { validateDynamicFields } = require("#/helpers/validateReq");
-const { Role } = require("#/models/RoleSchema");
-const { Package } = require("#/models/PackageSchema");
+const { sendVerificationEmail } = require("../../helpers/gmailClient");
+const { CODE_TYPE } = require("../../config/codeType");
+const { validateDynamicFields } = require("../../helpers/validateReq");
+const { Role } = require("../../models/RoleSchema");
+const { Package } = require("../../models/PackageSchema");
 
 router.post(
   "/",

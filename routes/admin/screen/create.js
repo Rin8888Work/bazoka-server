@@ -1,6 +1,6 @@
 const express = require("express");
-const { Screen } = require("#/models/ScreenSchema");
-const { responseJson, responseCatchError } = require("#/helpers");
+const { Screen } = require("../../../models/ScreenSchema");
+const { responseJson, responseCatchError } = require("../../../helpers");
 
 const router = express.Router();
 
