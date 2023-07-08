@@ -1,7 +1,8 @@
+require("module-alias/register");
 const express = require("express");
 const mongoose = require("mongoose");
-const { API_CONFIGS } = require("./config");
-const { responseJson } = require("./helpers");
+const { API_CONFIGS } = require("@/config/api");
+const { responseJson } = require("@/helpers");
 require("dotenv").config();
 
 const app = express();

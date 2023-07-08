@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  codeType: {
+    type: String,
+    required: true,
+  },
   verificationCode: {
     type: String,
     required: true,
@@ -27,6 +31,30 @@ const userSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  role: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Role",
+  },
+  package: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Package",
+  },
+  screens: [
+    {
+      screen: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Screen",
+      },
+      children: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Screen",
+        },
+      ],
+    },
+  ],
 });
+
 userSchema.index({ username: 1, email: 1 }, { unique: true });
+
 module.exports = { User: mongoose.model("User", userSchema) };
