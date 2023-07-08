@@ -10,7 +10,7 @@ const {
   INTERNAL_SERVER_ERROR,
   UNKNOWN_STATUS,
   UNAUTHORIZED,
-} = require("@/config/errorCode");
+} = require("#/config/errorCode");
 const { default: mongoose } = require("mongoose");
 
 const responseJson = ({

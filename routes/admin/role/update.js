@@ -1,7 +1,7 @@
 // routes/role/update.js
 const express = require("express");
-const { Role } = require("@/models/RoleSchema");
-const { responseJson, responseCatchError } = require("@/helpers");
+const { Role } = require("#/models/RoleSchema");
+const { responseJson, responseCatchError } = require("#/helpers");
 
 const router = express.Router();
 

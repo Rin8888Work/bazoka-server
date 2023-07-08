@@ -1,9 +1,9 @@
 const express = require("express");
-const { User } = require("@/models/UserSchema");
-const { responseJson, generateVerificationCode } = require("@/helpers");
-const { sendVerificationEmail } = require("@/helpers/gmailClient");
-const { CODE_TYPE } = require("@/config/codeType");
-const { validateDynamicFields } = require("@/helpers/validateReq");
+const { User } = require("#/models/UserSchema");
+const { responseJson, generateVerificationCode } = require("#/helpers");
+const { sendVerificationEmail } = require("#/helpers/gmailClient");
+const { CODE_TYPE } = require("#/config/codeType");
+const { validateDynamicFields } = require("#/helpers/validateReq");
 
 const router = express.Router();
 

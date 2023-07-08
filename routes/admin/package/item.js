@@ -1,6 +1,6 @@
 const express = require("express");
-const { Package } = require("@/models/PackageSchema");
-const { responseJson, responseCatchError } = require("@/helpers");
+const { Package } = require("#/models/PackageSchema");
+const { responseJson, responseCatchError } = require("#/helpers");
 
 const router = express.Router();
 

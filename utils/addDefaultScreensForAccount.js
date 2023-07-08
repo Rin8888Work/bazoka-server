@@ -1,7 +1,7 @@
-const { User } = require("@/models/UserSchema");
-const { Screen } = require("@/models/ScreenSchema");
-const { responseJson } = require("@/helpers");
-const { screensDefault } = require("@/config/screensDefault");
+const { User } = require("#/models/UserSchema");
+const { Screen } = require("#/models/ScreenSchema");
+const { responseJson } = require("#/helpers");
+const { screensDefault } = require("#/config/screensDefault");
 
 // Tạo danh sách màn hình mặc định dựa trên roleAccess và packageAccess
 async function createDefaultScreens(screensDefault, role, package) {

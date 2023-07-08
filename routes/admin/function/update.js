@@ -1,6 +1,6 @@
 const express = require("express");
-const { Function } = require("@/models/FunctionSchema");
-const { responseJson, responseCatchError } = require("@/helpers");
+const { Function } = require("#/models/FunctionSchema");
+const { responseJson, responseCatchError } = require("#/helpers");
 
 const router = express.Router();
 

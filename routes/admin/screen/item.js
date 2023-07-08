@@ -1,10 +1,10 @@
 const express = require("express");
-const { Screen } = require("@/models/ScreenSchema");
+const { Screen } = require("#/models/ScreenSchema");
 const {
   responseJson,
   responseCatchError,
   convertIdToObjectId,
-} = require("@/helpers");
+} = require("#/helpers");
 
 const router = express.Router();
 
