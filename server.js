@@ -30,7 +30,7 @@ API_CONFIGS.forEach(({ prefix, items }) => {
 });
 
 app.get("/", (req, res) => {
-  responseJson({ res, message: "Server is running" });
+  responseJson({ res, message: "Không có gì ở đây đâu ạ!" });
 });
 
 app.use((req, res) => {

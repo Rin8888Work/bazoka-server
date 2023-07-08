@@ -27,11 +27,11 @@ const itemPackageRouter = require("@/routes/admin/package/item");
 const listPackageRouter = require("@/routes/admin/package/list");
 
 // function api route
-const createFunctionRouter = require("@/routes/admin/function/create");
-const updateFunctionRouter = require("@/routes/admin/function/update");
-const deleteFunctionRouter = require("@/routes/admin/function/delete");
-const itemFunctionRouter = require("@/routes/admin/function/item");
-const listFunctionRouter = require("@/routes/admin/function/list");
+// const createFunctionRouter = require("@/routes/admin/function/create");
+// const updateFunctionRouter = require("@/routes/admin/function/update");
+// const deleteFunctionRouter = require("@/routes/admin/function/delete");
+// const itemFunctionRouter = require("@/routes/admin/function/item");
+// const listFunctionRouter = require("@/routes/admin/function/list");
 
 // Admin api route
 const createDefaultScreenRouter = require("@/routes/admin/createDefaultScreen");
@@ -143,31 +143,31 @@ const API_CONFIGS = [
       },
     ],
   },
-  {
-    prefix: "/function",
-    items: [
-      {
-        path: "/create",
-        handle: createFunctionRouter,
-      },
-      {
-        path: "/update",
-        handle: updateFunctionRouter,
-      },
-      {
-        path: "/delete",
-        handle: deleteFunctionRouter,
-      },
-      {
-        path: "/item",
-        handle: itemFunctionRouter,
-      },
-      {
-        path: "/list",
-        handle: listFunctionRouter,
-      },
-    ],
-  },
+  // {
+  //   prefix: "/function",
+  //   items: [
+  //     {
+  //       path: "/create",
+  //       handle: createFunctionRouter,
+  //     },
+  //     {
+  //       path: "/update",
+  //       handle: updateFunctionRouter,
+  //     },
+  //     {
+  //       path: "/delete",
+  //       handle: deleteFunctionRouter,
+  //     },
+  //     {
+  //       path: "/item",
+  //       handle: itemFunctionRouter,
+  //     },
+  //     {
+  //       path: "/list",
+  //       handle: listFunctionRouter,
+  //     },
+  //   ],
+  // },
   {
     prefix: "/initial",
     items: [
