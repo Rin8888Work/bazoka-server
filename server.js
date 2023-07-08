@@ -1,9 +1,9 @@
-require("module-alias/register");
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+
 const { API_CONFIGS } = require("@/config/api");
 const { responseJson } = require("@/helpers");
-require("dotenv").config();
 
 const app = express();
 const port = 3000;

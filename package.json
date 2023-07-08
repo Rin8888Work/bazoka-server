@@ -4,7 +4,7 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon server"
+    "dev": "nodemon --require ./path-aliases.js server"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -19,8 +19,5 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
-  },
-  "_moduleAliases": {
-    "@": "."
   }
 }
