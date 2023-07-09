@@ -6,19 +6,18 @@ const {
   responseCatchError,
   getFieldsFromModel,
 } = require("../../helpers");
-const { verifyToken } = require("../../helpers/jwt");
 
 const router = express.Router();
 
-router.put("/", [verifyToken], async (req, res) => {
+router.put("/", async (req, res) => {
   try {
-    const { username, role, license, screens } = req.body;
+    const { role, license, screens } = req.body;
     const userId = req.user._id;
 
     // Cập nhật thông tin tài khoản
     const user = await User.findByIdAndUpdate(
       userId,
-      { username, role, license, screens },
+      { role, license, screens },
       { new: true }
     )
       .populate({ path: "role" })

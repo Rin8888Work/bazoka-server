@@ -15,10 +15,10 @@ const router = express.Router();
 
 router.post(
   "/",
-  validateDynamicFields(["email", "verificationCode", "codeType"]),
+  validateDynamicFields(["username", "verificationCode", "codeType"]),
   async (req, res) => {
     try {
-      const { email, verificationCode, codeType, newPassword } = req.body;
+      const { username, verificationCode, codeType, newPassword } = req.body;
 
       if (
         !Object.keys(CODE_TYPE)
@@ -33,7 +33,9 @@ router.post(
       }
 
       // Tìm user dựa trên mã xác nhận
-      const user = await User.findOne({ email });
+      const user = await User.findOne({
+        $or: [{ username }, { email: username }],
+      });
       if (!user) {
         return responseJson({
           res,
@@ -72,7 +74,7 @@ router.post(
           await user.save();
           const userWithScreens = await addDefaultScreensForAccount({
             res,
-            email,
+            username,
           });
 
           const userResponse = getFieldsFromModel(userWithScreens, [

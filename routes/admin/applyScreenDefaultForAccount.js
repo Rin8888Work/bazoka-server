@@ -6,9 +6,9 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    const { username, email } = req.body;
+    const { username } = req.body;
 
-    const user = await addDefaultScreensForAccount({ res, email, username });
+    const user = await addDefaultScreensForAccount({ res, username });
 
     if (user)
       responseJson({

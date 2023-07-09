@@ -14,11 +14,13 @@ const router = express.Router();
 
 router.post(
   "/",
-  validateDynamicFields(["email", "password"]),
+  validateDynamicFields(["username", "password"]),
   async (req, res) => {
     try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email })
+      const { username, password } = req.body;
+      const user = await User.findOne({
+        $or: [{ username }, { email: username }],
+      })
         .populate({ path: "role" })
         .populate({ path: "license" })
         .populate({

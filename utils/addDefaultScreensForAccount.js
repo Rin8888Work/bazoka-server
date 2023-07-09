@@ -2,6 +2,8 @@ const { User } = require("../models/UserSchema");
 const { Screen } = require("../models/ScreenSchema");
 const { responseJson } = require("../helpers");
 const { screensDefault } = require("../config/screensDefault");
+const { License } = require("../models/LicenseSchema");
+const { Role } = require("../models/RoleSchema");
 
 // Tạo danh sách màn hình mặc định dựa trên roleAccess và licenseAccess
 async function createDefaultScreens(screensDefault, role, license) {
@@ -30,8 +32,8 @@ async function createDefaultScreens(screensDefault, role, license) {
     }
 
     if (
-      screen.roleAccess.includes(role.toString()) &&
-      screen.licenseAccess.includes(license.toString())
+      screen.roleAccess.includes(role) &&
+      screen.licenseAccess.includes(license)
     ) {
       defaultScreens.push(screenItem);
     }
@@ -42,13 +44,11 @@ async function createDefaultScreens(screensDefault, role, license) {
   return defaultScreens;
 }
 
-module.exports = async ({ res, username = "", email = "" }) => {
+module.exports = async ({ res, username }) => {
   // Tìm người dùng theo username hoặc email
   const user = await User.findOne({
-    $or: [{ username }, { email }],
-  })
-    .populate("role")
-    .populate("license");
+    $or: [{ username }, { email: username }],
+  });
 
   if (!user) {
     return responseJson({
@@ -59,19 +59,22 @@ module.exports = async ({ res, username = "", email = "" }) => {
   }
 
   // Kiểm tra xem người dùng đã có màn hình mặc định chưa
-  if (user.screens && user.screens.length > 0) {
-    return responseJson({
-      res,
-      statusCode: 200,
-      message: "Người dùng đã có danh sách màn hình mặc định",
-    });
-  }
+  // if (user.screens && user.screens.length > 0) {
+  //   return responseJson({
+  //     res,
+  //     statusCode: 200,
+  //     message: "Người dùng đã có danh sách màn hình mặc định",
+  //   });
+  // }
+
+  const freeLicenseObj = await License.findOne({ code: "FREE" });
+  const userRoleObj = await Role.findOne({ code: "USER" });
 
   // Tạo danh sách màn hình dựa trên roleAccess và licenseAccess
   const defaultScreens = await createDefaultScreens(
     screensDefault,
-    user.role.code,
-    user.license.code
+    userRoleObj.code,
+    freeLicenseObj.code
   );
 
   // Cập nhật danh sách màn hình cho người dùng

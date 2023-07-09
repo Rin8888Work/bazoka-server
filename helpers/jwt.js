@@ -7,28 +7,27 @@ module.exports = {
       expiresIn: "1h",
     }),
 
-  verifyToken(req, res, next) {
+  verifyToken(req, res) {
     const accessToken = req.headers.authorization;
 
     if (!accessToken) {
       return responseJson({
         res,
         statusCode: 401,
-        message: "Vui lòng cung cấp accessToken",
+        message: "Unauthorized",
       });
     }
 
-    jwt.verify(accessToken, process.env.JWT_SECRET, (err, decoded) => {
+    return jwt.verify(accessToken, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         return responseJson({
           res,
           statusCode: 401,
-          message: "accessToken không hợp lệ",
+          message: "Verify error",
         });
       }
 
-      req.user = decoded;
-      next();
+      return decoded;
     });
   },
 };

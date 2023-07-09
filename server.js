@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 
 const { API_CONFIGS } = require("./config/api");
 const { responseJson } = require("./helpers");
+const verifyRequest = require("./helpers/verifyRequest");
 
 const app = express();
 const port = 3000;
@@ -22,10 +23,13 @@ mongoose
     console.log("Error connecting to MongoDB Atlas:", error);
   });
 
-// Sử dụng các module định tuyến
 API_CONFIGS.forEach(({ prefix, items }) => {
   items.forEach((api) => {
-    app.use(`${prefix}${api.path}`, api.handle);
+    app.use(
+      `${prefix}${api.path}`,
+      (req, res, next) => verifyRequest(req, res, next, api.type),
+      api.handle
+    );
   });
 });
 

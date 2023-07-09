@@ -53,7 +53,7 @@ const responseJson = ({
     }
   }
 
-  res.status(statusCode).json({
+  return res.status(statusCode).json({
     status,
     statusCode,
     message,

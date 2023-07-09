@@ -34,8 +34,15 @@ const listLicenseRouter = require("../routes/admin/license/list");
 // const listFunctionRouter = require("../routes/admin/function/list");
 
 // Admin api route
-const createDefaultScreenRouter = require("../routes/admin/createDefaultScreen");
+const createDefaultDataRouter = require("../routes/admin/createDefaultData");
 const applyScreenDefaultForAccountRouter = require("../routes/admin/applyScreenDefaultForAccount");
+
+// API authorizeType
+const API_AUTHORIZE_TYPE = {
+  PUBLIC: "PUBLIC",
+  AUTHORIZE: "AUTHORIZE",
+  ADMIN: "ADMIN",
+};
 
 const API_CONFIGS = [
   {
@@ -44,18 +51,22 @@ const API_CONFIGS = [
       {
         path: "/signup",
         handle: signupRouter,
+        type: API_AUTHORIZE_TYPE.PUBLIC,
       },
       {
         path: "/signin",
         handle: signinRouter,
+        type: API_AUTHORIZE_TYPE.PUBLIC,
       },
       {
         path: "/verify",
         handle: verifyRouter,
+        type: API_AUTHORIZE_TYPE.PUBLIC,
       },
       {
         path: "/update",
         handle: updateAccountRouter,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
       },
     ],
   },
@@ -65,81 +76,97 @@ const API_CONFIGS = [
       {
         path: "/sendCode",
         handle: sendCodeRouter,
+        type: API_AUTHORIZE_TYPE.PUBLIC,
       },
     ],
   },
   {
-    prefix: "/role",
+    prefix: "/admin/role",
     items: [
       {
         path: "/create",
         handle: createRoleRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
       {
         path: "/update",
         handle: updateRoleRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
       {
         path: "/delete",
         handle: deleteRoleRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
       {
         path: "/item",
         handle: itemRoleRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
       {
         path: "/list",
         handle: listRoleRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
     ],
   },
   {
-    prefix: "/screen",
+    prefix: "/admin/screen",
     items: [
       {
         path: "/create",
         handle: createScreenRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
       {
         path: "/update",
         handle: updateScreenRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
       {
         path: "/delete",
         handle: deleteScreenRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
       {
         path: "/item",
         handle: itemScreenRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
       {
         path: "/list",
         handle: listScreenRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
     ],
   },
   {
-    prefix: "/license",
+    prefix: "/admin/license",
     items: [
       {
         path: "/create",
         handle: createLicenseRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
       {
         path: "/update",
         handle: updateLicenseRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
       {
         path: "/delete",
         handle: deleteLicenseRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
       {
         path: "/item",
         handle: itemLicenseRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
       {
         path: "/list",
         handle: listLicenseRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
     ],
   },
@@ -169,18 +196,20 @@ const API_CONFIGS = [
   //   ],
   // },
   {
-    prefix: "/initial",
+    prefix: "/admin/initial",
     items: [
       {
-        path: "/create-default-screens",
-        handle: createDefaultScreenRouter,
+        path: "/create-default-data",
+        handle: createDefaultDataRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
       {
         path: "/apply-default-screens-for-account",
         handle: applyScreenDefaultForAccountRouter,
+        type: API_AUTHORIZE_TYPE.ADMIN,
       },
     ],
   },
 ];
 
-module.exports = { API_CONFIGS };
+module.exports = { API_CONFIGS, API_AUTHORIZE_TYPE };

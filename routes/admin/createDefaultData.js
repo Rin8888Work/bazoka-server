@@ -4,13 +4,43 @@ const { Role } = require("../../models/RoleSchema");
 const { License } = require("../../models/LicenseSchema");
 const { responseJson, responseCatchError } = require("../../helpers");
 const { screensDefault } = require("../../config/screensDefault");
+const { rolesDefault } = require("../../config/rolesDefault");
+const { licensesDefault } = require("../../config/licensesDefault");
 
 const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    // Xóa toàn bộ screens hiện có trong database
+    await Role.deleteMany({});
+    await License.deleteMany({});
     await Screen.deleteMany({});
+
+    const addRolesPromise = rolesDefault.map(({ name, code }) => {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const role = new Role({ name, code });
+          await role.save();
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
+
+    const addLicensesPromise = licensesDefault.map(({ name, code }) => {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const license = new License({ name, code });
+          await license.save();
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
+
+    await Promise.all(addRolesPromise);
+    await Promise.all(addLicensesPromise);
 
     // Tạo các screens mới từ dữ liệu mặc định
     await createDefaultScreens(screensDefault);
@@ -18,7 +48,7 @@ router.post("/", async (req, res) => {
     responseJson({
       res,
       statusCode: 201,
-      message: "Tạo screens mặc định thành công",
+      message: "Tạo data mặc định thành công",
     });
   } catch (error) {
     console.log({ error });
