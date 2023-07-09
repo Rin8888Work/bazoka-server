@@ -30,10 +30,10 @@ const screenSchema = new mongoose.Schema({
       ref: "Role",
     },
   ],
-  packageAccess: [
+  licenseAccess: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Package",
+      ref: "License",
     },
   ],
 });

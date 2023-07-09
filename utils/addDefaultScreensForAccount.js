@@ -3,12 +3,12 @@ const { Screen } = require("../models/ScreenSchema");
 const { responseJson } = require("../helpers");
 const { screensDefault } = require("../config/screensDefault");
 
-// Tạo danh sách màn hình mặc định dựa trên roleAccess và packageAccess
-async function createDefaultScreens(screensDefault, role, package) {
+// Tạo danh sách màn hình mặc định dựa trên roleAccess và licenseAccess
+async function createDefaultScreens(screensDefault, role, license) {
   const defaultScreens = [];
 
   const mapScreensPromise = screensDefault.map(async (screen) => {
-    // Kiểm tra roleAccess và packageAccess của screen
+    // Kiểm tra roleAccess và licenseAccess của screen
     const screenObj = await Screen.findOne({ code: screen.code });
     const screenItem = {
       screen: screenObj._id,
@@ -31,7 +31,7 @@ async function createDefaultScreens(screensDefault, role, package) {
 
     if (
       screen.roleAccess.includes(role.toString()) &&
-      screen.packageAccess.includes(package.toString())
+      screen.licenseAccess.includes(license.toString())
     ) {
       defaultScreens.push(screenItem);
     }
@@ -48,7 +48,7 @@ module.exports = async ({ res, username = "", email = "" }) => {
     $or: [{ username }, { email }],
   })
     .populate("role")
-    .populate("package");
+    .populate("license");
 
   if (!user) {
     return responseJson({
@@ -67,11 +67,11 @@ module.exports = async ({ res, username = "", email = "" }) => {
     });
   }
 
-  // Tạo danh sách màn hình dựa trên roleAccess và packageAccess
+  // Tạo danh sách màn hình dựa trên roleAccess và licenseAccess
   const defaultScreens = await createDefaultScreens(
     screensDefault,
     user.role.code,
-    user.package.code
+    user.license.code
   );
 
   // Cập nhật danh sách màn hình cho người dùng
@@ -80,7 +80,7 @@ module.exports = async ({ res, username = "", email = "" }) => {
 
   const userResponse = await User.findOne({})
     .populate({ path: "role" })
-    .populate({ path: "package" })
+    .populate({ path: "license" })
     .populate({
       path: "screens",
       populate: [

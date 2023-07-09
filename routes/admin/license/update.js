@@ -1,5 +1,5 @@
 const express = require("express");
-const { Package } = require("../../../models/PackageSchema");
+const { License } = require("../../../models/LicenseSchema");
 const { responseJson, responseCatchError } = require("../../../helpers");
 
 const router = express.Router();
@@ -9,7 +9,7 @@ router.put("/:id", async (req, res) => {
     const { id } = req.params;
     const { name, code, description } = req.body;
 
-    const package = await Package.findByIdAndUpdate(
+    const license = await License.findByIdAndUpdate(
       id,
       { name, code, description },
       { new: true }
@@ -18,8 +18,8 @@ router.put("/:id", async (req, res) => {
     responseJson({
       res,
       statusCode: 200,
-      message: "Cập nhật thông tin Package thành công",
-      data: package,
+      message: "Cập nhật thông tin License thành công",
+      data: license,
     });
   } catch (error) {
     responseCatchError({ res, error });

@@ -26,10 +26,10 @@ router.get("/", async (req, res) => {
       },
       {
         $lookup: {
-          from: "packages",
-          localField: "packageAccess",
+          from: "licenses",
+          localField: "licenseAccess",
           foreignField: "_id",
-          as: "packageAccess",
+          as: "licenseAccess",
         },
       },
       {
@@ -48,10 +48,10 @@ router.get("/", async (req, res) => {
       },
       {
         $lookup: {
-          from: "packages",
-          localField: "children.packageAccess",
+          from: "licenses",
+          localField: "children.licenseAccess",
           foreignField: "_id",
-          as: "children.packageAccess",
+          as: "children.licenseAccess",
         },
       },
       {
@@ -77,7 +77,7 @@ router.get("/", async (req, res) => {
               cond: {
                 $and: [
                   { $ne: ["$$child.roleAccess", []] },
-                  { $ne: ["$$child.packageAccess", []] },
+                  { $ne: ["$$child.licenseAccess", []] },
                 ],
               },
             },

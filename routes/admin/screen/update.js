@@ -14,7 +14,7 @@ router.put("/:id", async (req, res) => {
       parent,
       screenPath,
       roleAccess,
-      packageAccess,
+      licenseAccess,
       order,
     } = req.body;
 
@@ -27,7 +27,7 @@ router.put("/:id", async (req, res) => {
         parent,
         screenPath,
         roleAccess,
-        packageAccess,
+        licenseAccess,
         order,
       },
       { new: true }
@@ -57,10 +57,10 @@ router.put("/:id", async (req, res) => {
       },
       {
         $lookup: {
-          from: "packages",
-          localField: "packageAccess",
+          from: "licenses",
+          localField: "licenseAccess",
           foreignField: "_id",
-          as: "packageAccess",
+          as: "licenseAccess",
         },
       },
       {
@@ -79,10 +79,10 @@ router.put("/:id", async (req, res) => {
       },
       {
         $lookup: {
-          from: "packages",
-          localField: "children.packageAccess",
+          from: "licenses",
+          localField: "children.licenseAccess",
           foreignField: "_id",
-          as: "children.packageAccess",
+          as: "children.licenseAccess",
         },
       },
       {
@@ -108,7 +108,7 @@ router.put("/:id", async (req, res) => {
               cond: {
                 $and: [
                   { $ne: ["$$child.roleAccess", []] },
-                  { $ne: ["$$child.packageAccess", []] },
+                  { $ne: ["$$child.licenseAccess", []] },
                 ],
               },
             },

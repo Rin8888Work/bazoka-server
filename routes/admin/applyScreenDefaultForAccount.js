@@ -10,12 +10,13 @@ router.post("/", async (req, res) => {
 
     const user = await addDefaultScreensForAccount({ res, email, username });
 
-    responseJson({
-      res,
-      statusCode: 200,
-      message: "Danh sách màn hình mặc định đã được thêm cho account",
-      data: user,
-    });
+    if (user)
+      responseJson({
+        res,
+        statusCode: 200,
+        message: "Danh sách màn hình mặc định đã được thêm cho account",
+        data: user,
+      });
   } catch (error) {
     responseCatchError({ res, error });
   }

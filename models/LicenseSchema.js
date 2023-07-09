@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const packageSchema = new mongoose.Schema({
+const licenseSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -15,6 +15,6 @@ const packageSchema = new mongoose.Schema({
   },
 });
 
-const Package = mongoose.model("Package", packageSchema);
+const License = mongoose.model("License", licenseSchema);
 
-module.exports = { Package };
+module.exports = { License };

@@ -13,7 +13,7 @@ const { sendVerificationEmail } = require("../../helpers/gmailClient");
 const { CODE_TYPE } = require("../../config/codeType");
 const { validateDynamicFields } = require("../../helpers/validateReq");
 const { Role } = require("../../models/RoleSchema");
-const { Package } = require("../../models/PackageSchema");
+const { License } = require("../../models/LicenseSchema");
 
 router.post(
   "/",
@@ -25,7 +25,7 @@ router.post(
       const { verificationCode, codeExpireTime } = generateVerificationCode();
 
       const role = await Role.findOne({ code: "USER" });
-      const package = await Package.findOne({ code: "FREE" });
+      const license = await License.findOne({ code: "FREE" });
 
       const user = new User({
         username,
@@ -35,7 +35,7 @@ router.post(
         verificationCode,
         codeExpireTime,
         codeType: CODE_TYPE.SIGNUP,
-        package: package._id,
+        license: license._id,
         role: role._id,
       });
 

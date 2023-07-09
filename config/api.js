@@ -19,12 +19,12 @@ const deleteScreenRouter = require("../routes/admin/screen/delete");
 const itemScreenRouter = require("../routes/admin/screen/item");
 const listScreenRouter = require("../routes/admin/screen/list");
 
-// Package api route
-const createPackageRouter = require("../routes/admin/package/create");
-const updatePackageRouter = require("../routes/admin/package/update");
-const deletePackageRouter = require("../routes/admin/package/delete");
-const itemPackageRouter = require("../routes/admin/package/item");
-const listPackageRouter = require("../routes/admin/package/list");
+// License api route
+const createLicenseRouter = require("../routes/admin/license/create");
+const updateLicenseRouter = require("../routes/admin/license/update");
+const deleteLicenseRouter = require("../routes/admin/license/delete");
+const itemLicenseRouter = require("../routes/admin/license/item");
+const listLicenseRouter = require("../routes/admin/license/list");
 
 // function api route
 // const createFunctionRouter = require("../routes/admin/function/create");
@@ -119,27 +119,27 @@ const API_CONFIGS = [
     ],
   },
   {
-    prefix: "/package",
+    prefix: "/license",
     items: [
       {
         path: "/create",
-        handle: createPackageRouter,
+        handle: createLicenseRouter,
       },
       {
         path: "/update",
-        handle: updatePackageRouter,
+        handle: updateLicenseRouter,
       },
       {
         path: "/delete",
-        handle: deletePackageRouter,
+        handle: deleteLicenseRouter,
       },
       {
         path: "/item",
-        handle: itemPackageRouter,
+        handle: itemLicenseRouter,
       },
       {
         path: "/list",
-        handle: listPackageRouter,
+        handle: listLicenseRouter,
       },
     ],
   },

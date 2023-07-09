@@ -12,17 +12,17 @@ const router = express.Router();
 
 router.put("/", [verifyToken], async (req, res) => {
   try {
-    const { username, role, package, screens } = req.body;
+    const { username, role, license, screens } = req.body;
     const userId = req.user._id;
 
     // Cập nhật thông tin tài khoản
     const user = await User.findByIdAndUpdate(
       userId,
-      { username, role, package, screens },
+      { username, role, license, screens },
       { new: true }
     )
       .populate({ path: "role" })
-      .populate({ path: "package" })
+      .populate({ path: "license" })
       .populate({
         path: "screens",
         populate: [
@@ -47,7 +47,7 @@ router.put("/", [verifyToken], async (req, res) => {
       "email",
       "isVerify",
       "role",
-      "package",
+      "license",
       "screens",
     ]);
 

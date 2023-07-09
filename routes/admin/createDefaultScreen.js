@@ -1,7 +1,7 @@
 const express = require("express");
 const { Screen } = require("../../models/ScreenSchema");
 const { Role } = require("../../models/RoleSchema");
-const { Package } = require("../../models/PackageSchema");
+const { License } = require("../../models/LicenseSchema");
 const { responseJson, responseCatchError } = require("../../helpers");
 const { screensDefault } = require("../../config/screensDefault");
 
@@ -40,11 +40,11 @@ async function createScreen(screenData, parent) {
     description,
     children,
     roleAccess,
-    packageAccess,
+    licenseAccess,
     order,
   } = screenData;
   const roles = await Role.find({ code: { $in: roleAccess } });
-  const packages = await Package.find({ code: { $in: packageAccess } });
+  const licenses = await License.find({ code: { $in: licenseAccess } });
 
   const screen = new Screen({
     name,
@@ -54,7 +54,7 @@ async function createScreen(screenData, parent) {
     description,
     parent,
     roleAccess: roles?.map((r) => r._id),
-    packageAccess: packages?.map((p) => p._id),
+    licenseAccess: licenses?.map((p) => p._id),
   });
 
   await screen.save();

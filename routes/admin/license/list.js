@@ -1,19 +1,18 @@
 const express = require("express");
-const { Package } = require("../../../models/PackageSchema");
+const { License } = require("../../../models/LicenseSchema");
 const { responseJson, responseCatchError } = require("../../../helpers");
 
 const router = express.Router();
 
-router.delete("/:id", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const { id } = req.params;
-
-    await Package.findByIdAndDelete(id);
+    const licenses = await License.find();
 
     responseJson({
       res,
       statusCode: 200,
-      message: "Xóa Package thành công",
+      message: "Danh sách Licenses",
+      data: licenses,
     });
   } catch (error) {
     console.log({ error });

@@ -20,7 +20,7 @@ router.post(
       const { email, password } = req.body;
       const user = await User.findOne({ email })
         .populate({ path: "role" })
-        .populate({ path: "package" })
+        .populate({ path: "license" })
         .populate({
           path: "screens",
           populate: [
@@ -72,7 +72,7 @@ router.post(
         "email",
         "isVerify",
         "role",
-        "package",
+        "license",
         "screens",
       ]);
       const token = createToken(
@@ -82,7 +82,7 @@ router.post(
           "email",
           "isVerify",
           "role",
-          "package",
+          "license",
         ])
       );
 

@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
       parent,
       screenPath,
       roleAccess,
-      packageAccess,
+      licenseAccess,
       order,
     } = req.body;
 
@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
       parent,
       screenPath,
       roleAccess,
-      packageAccess,
+      licenseAccess,
       order,
     });
     await screen.save();

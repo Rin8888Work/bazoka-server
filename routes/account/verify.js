@@ -81,7 +81,7 @@ router.post(
             "email",
             "isVerify",
             "role",
-            "package",
+            "license",
             "screens",
           ]);
           const token = createToken(
@@ -91,7 +91,7 @@ router.post(
               "email",
               "isVerify",
               "role",
-              "package",
+              "license",
             ])
           );
 
