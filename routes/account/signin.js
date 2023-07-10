@@ -76,6 +76,7 @@ router.post(
         "role",
         "license",
         "screens",
+        "isInit",
       ]);
       const token = createToken(
         getFieldsFromModel(user, [
