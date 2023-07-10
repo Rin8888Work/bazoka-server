@@ -35,6 +35,7 @@ const verifyRequest = (req, res, next, type) => {
 
     case API_AUTHORIZE_TYPE.INIT:
       const decodedInitToken = verifyToken(req, res);
+      console.log({ decodedInitToken });
       if (decodedInitToken?._id) {
         if (decodedInitToken.isInit) {
           req.user = decodedInitToken;

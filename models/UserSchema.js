@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  isInit: {
+    type: Boolean,
+    default: false,
+  },
   codeType: {
     type: String,
     required: true,
