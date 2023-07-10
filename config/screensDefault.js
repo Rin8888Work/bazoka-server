@@ -23,7 +23,7 @@ module.exports = {
         },
         {
           name: "License",
-          code: "PACKAGE",
+          code: "LICENSE",
           screenPath: "/admin/license",
           roleAccess: ["ADMIN"],
           licenseAccess: ["FREE", "PAID"],
