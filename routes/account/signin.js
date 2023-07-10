@@ -85,6 +85,7 @@ router.post(
           "isVerify",
           "role",
           "license",
+          "isInit",
         ])
       );
 
