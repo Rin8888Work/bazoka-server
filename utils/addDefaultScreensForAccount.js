@@ -44,7 +44,7 @@ async function createDefaultScreens(screensDefault, role, license) {
   return defaultScreens;
 }
 
-module.exports = async ({ res, username }) => {
+module.exports = async ({ res, username, roleCode, licenseCode }) => {
   // Tìm người dùng theo username hoặc email
   const user = await User.findOne({
     $or: [{ username }, { email: username }],
@@ -67,18 +67,20 @@ module.exports = async ({ res, username }) => {
   //   });
   // }
 
-  const freeLicenseObj = await License.findOne({ code: "FREE" });
-  const userRoleObj = await Role.findOne({ code: "USER" });
+  const licenseObj = await License.findOne({ code: licenseCode });
+  const roleObj = await Role.findOne({ code: roleCode });
 
   // Tạo danh sách màn hình dựa trên roleAccess và licenseAccess
   const defaultScreens = await createDefaultScreens(
     screensDefault,
-    userRoleObj.code,
-    freeLicenseObj.code
+    roleObj.code,
+    licenseObj.code
   );
 
   // Cập nhật danh sách màn hình cho người dùng
   user.screens = defaultScreens;
+  user.role = roleObj._id;
+  user.license = licenseObj._id;
   await user.save();
 
   const userResponse = await User.findOne({})

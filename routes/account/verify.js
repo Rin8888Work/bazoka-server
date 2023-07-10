@@ -75,6 +75,8 @@ router.post(
           const userWithScreens = await addDefaultScreensForAccount({
             res,
             username,
+            roleCode: "USER",
+            licenseCode: "FREE",
           });
 
           const userResponse = getFieldsFromModel(userWithScreens, [
