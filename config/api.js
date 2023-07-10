@@ -42,6 +42,7 @@ const API_AUTHORIZE_TYPE = {
   PUBLIC: "PUBLIC",
   AUTHORIZE: "AUTHORIZE",
   ADMIN: "ADMIN",
+  INIT: "INIT",
 };
 
 const API_CONFIGS = [
@@ -201,7 +202,7 @@ const API_CONFIGS = [
       {
         path: "/create-default-data",
         handle: createDefaultDataRouter,
-        type: API_AUTHORIZE_TYPE.ADMIN,
+        type: API_AUTHORIZE_TYPE.INIT,
       },
       {
         path: "/apply-default-screens-for-account",

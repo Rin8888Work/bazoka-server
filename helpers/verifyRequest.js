@@ -32,6 +32,22 @@ const verifyRequest = (req, res, next, type) => {
       }
 
       break;
+
+    case API_AUTHORIZE_TYPE.INIT:
+      const decodedInitToken = verifyToken(req, res);
+      if (decodedInitToken?._id) {
+        if (decodedInitToken.isInit) {
+          req.user = decodedInitToken;
+          next();
+        } else {
+          return responseJson({
+            res,
+            statusCode: 403,
+            message: "Không có quyền truy cập",
+          });
+        }
+      }
+      break;
   }
 };
 
