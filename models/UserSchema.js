@@ -25,15 +25,12 @@ const userSchema = new mongoose.Schema({
   },
   codeType: {
     type: String,
-    required: true,
   },
   verificationCode: {
     type: String,
-    required: true,
   },
   codeExpireTime: {
     type: Date,
-    required: true,
   },
   role: {
     type: mongoose.Schema.Types.ObjectId,
