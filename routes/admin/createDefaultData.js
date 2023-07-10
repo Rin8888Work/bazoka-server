@@ -57,9 +57,17 @@ router.post("/", async (req, res) => {
 });
 
 async function createDefaultScreens(screens) {
-  screens.forEach(async (screen) => {
-    await createScreen(screen);
+  const createScreensPromise = screens.map(async (screen) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await createScreen(screen);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
   });
+  await Promise.all(createScreensPromise);
 }
 
 async function createScreen(screenData, parent) {
@@ -90,9 +98,17 @@ async function createScreen(screenData, parent) {
   await screen.save();
 
   if (children && children.length > 0) {
-    children.forEach(async (childData) => {
-      await createScreen(childData, screen._id);
+    const createScreensPromise = children.map(async (childData) => {
+      return new Promise(async (resolve, reject) => {
+        try {
+          await createScreen(childData, screen._id);
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+      });
     });
+    await Promise.all(createScreensPromise);
   }
 }
 
