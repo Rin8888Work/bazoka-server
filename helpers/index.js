@@ -65,7 +65,7 @@ const responseCatchError = ({ res, error }) => {
   console.log({ error });
   if (error?.code === 11000) {
     const field = Object.keys(error.keyValue)[0];
-    const message = `${field} đã tồn tại trong hệ thống`;
+    const message = `${field} is existed on our system`;
     responseJson({
       res,
       statusCode: 400,
@@ -76,14 +76,21 @@ const responseCatchError = ({ res, error }) => {
     responseJson({
       res,
       statusCode: 404,
-      message: `Không tìm thấy id ${error.stringValue} trong hệ thống`,
+      message: `Notfound id ${error.stringValue} on our system`,
+      error,
+    });
+  } else if (error?.name === "ValidationError") {
+    responseJson({
+      res,
+      statusCode: 400,
+      message: error.message,
       error,
     });
   } else {
     responseJson({
       res,
       statusCode: 500,
-      message: "Đã có lỗi xảy ra. Vui lòng thử lại",
+      message: "Server error. Please try again.",
       error,
     });
   }

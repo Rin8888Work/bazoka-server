@@ -137,7 +137,7 @@ const API_CONFIGS = [
       {
         path: "/list",
         handle: listScreenRouter,
-        type: API_AUTHORIZE_TYPE.ADMIN,
+        type: [API_AUTHORIZE_TYPE.AUTHORIZE],
       },
     ],
   },

@@ -10,11 +10,12 @@ router.put("/:id", async (req, res) => {
     const {
       name,
       code,
+      url,
       description,
+      level,
       parent,
-      screenPath,
-      roleAccess,
-      licenseAccess,
+      rolesAccess,
+      licensesAccess,
       order,
     } = req.body;
 
@@ -23,11 +24,12 @@ router.put("/:id", async (req, res) => {
       {
         name,
         code,
+        url,
         description,
+        level,
         parent,
-        screenPath,
-        roleAccess,
-        licenseAccess,
+        rolesAccess,
+        licensesAccess,
         order,
       },
       { new: true }

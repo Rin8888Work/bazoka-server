@@ -32,7 +32,7 @@ module.exports = {
           name: "Screen",
           code: "SCREEN",
           screenPath: "/admin/screen",
-          roleAccess: ["ADMIN"],
+          roleAccess: ["ADMIN", "USER"],
           licenseAccess: ["FREE", "PAID"],
         },
       ],

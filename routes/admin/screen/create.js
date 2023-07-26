@@ -9,22 +9,24 @@ router.post("/", async (req, res) => {
     const {
       name,
       code,
+      url,
       description,
+      level,
       parent,
-      screenPath,
-      roleAccess,
-      licenseAccess,
+      rolesAccess,
+      licensesAccess,
       order,
     } = req.body;
 
     const screen = new Screen({
       name,
       code,
+      url,
       description,
+      level,
       parent,
-      screenPath,
-      roleAccess,
-      licenseAccess,
+      rolesAccess,
+      licensesAccess,
       order,
     });
     await screen.save();
