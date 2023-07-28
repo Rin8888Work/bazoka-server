@@ -10,12 +10,10 @@ const screenSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  url: {
-    type: String,
-    unique: true,
-    required: true,
-  },
   description: {
+    type: String,
+  },
+  screenPath: {
     type: String,
   },
   level: {
@@ -41,6 +39,9 @@ const screenSchema = new mongoose.Schema({
   order: {
     type: Number,
     default: 99,
+  },
+  prefixPath: {
+    type: String,
   },
 });
 

@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-
+const cors = require("cors");
 const { API_CONFIGS } = require("./config/api");
 const { responseJson } = require("./helpers");
 const verifyRequest = require("./helpers/verifyRequest");
@@ -10,6 +10,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(cors());
 
 mongoose
   .connect(process.env.MONGODB_URI, {

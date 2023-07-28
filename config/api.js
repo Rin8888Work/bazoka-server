@@ -18,6 +18,7 @@ const updateScreenRouter = require("../routes/admin/screen/update");
 const deleteScreenRouter = require("../routes/admin/screen/delete");
 const itemScreenRouter = require("../routes/admin/screen/item");
 const listScreenRouter = require("../routes/admin/screen/list");
+const listScreensForUserRouter = require("../routes/admin/screen/listForUser");
 
 // License api route
 const createLicenseRouter = require("../routes/admin/license/create");
@@ -37,6 +38,8 @@ const listLicenseRouter = require("../routes/admin/license/list");
 const createDefaultDataRouter = require("../routes/admin/createDefaultData");
 const applyScreenDefaultForAccountRouter = require("../routes/admin/applyScreenDefaultForAccount");
 
+const refreshTokenRouter = require("../routes/token/refresh");
+
 // API authorizeType
 const API_AUTHORIZE_TYPE = {
   PUBLIC: "PUBLIC",
@@ -46,6 +49,16 @@ const API_AUTHORIZE_TYPE = {
 };
 
 const API_CONFIGS = [
+  {
+    prefix: "/token",
+    items: [
+      {
+        path: "/refresh",
+        handle: refreshTokenRouter,
+        type: API_AUTHORIZE_TYPE.PUBLIC,
+      },
+    ],
+  },
   {
     prefix: "/account",
     items: [
@@ -137,6 +150,11 @@ const API_CONFIGS = [
       {
         path: "/list",
         handle: listScreenRouter,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
+      },
+      {
+        path: "/screens-for-user",
+        handle: listScreensForUserRouter,
         type: API_AUTHORIZE_TYPE.AUTHORIZE,
       },
     ],

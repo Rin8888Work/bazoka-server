@@ -4,8 +4,12 @@ const { responseJson } = require(".");
 module.exports = {
   createToken: (data) =>
     jwt.sign(data, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "1d",
     }),
+
+  createRefreshToken(data) {
+    return jwt.sign(data, process.env.JWT_SECRET, { expiresIn: "30d" });
+  },
 
   verifyToken(req, res) {
     const accessToken = req.headers.authorization;

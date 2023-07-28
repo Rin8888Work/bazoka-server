@@ -6,7 +6,7 @@ const {
   compareHash,
   getFieldsFromModel,
 } = require("../../helpers");
-const { createToken } = require("../../helpers/jwt");
+const { createToken, createRefreshToken } = require("../../helpers/jwt");
 const { validateDynamicFields } = require("../../helpers/validateReq");
 const { UNVERIFY_ACCOUNT } = require("../../config/errorCode");
 
@@ -88,11 +88,13 @@ router.post(
           "isInit",
         ])
       );
+      // Create the refresh token
+      const refreshToken = createRefreshToken({ userId: user._id });
 
       responseJson({
         res,
         statusCode: 200,
-        data: { token, user: userResponse },
+        data: { token, refreshToken, user: userResponse },
       });
     } catch (error) {
       console.log(error);
