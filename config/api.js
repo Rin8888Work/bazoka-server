@@ -27,6 +27,8 @@ const deleteLicenseRouter = require("../routes/admin/license/delete");
 const itemLicenseRouter = require("../routes/admin/license/item");
 const listLicenseRouter = require("../routes/admin/license/list");
 
+const haokanImageRouter = require("../routes/haokan/image");
+
 // function api route
 // const createFunctionRouter = require("../routes/admin/function/create");
 // const updateFunctionRouter = require("../routes/admin/function/update");
@@ -49,6 +51,16 @@ const API_AUTHORIZE_TYPE = {
 };
 
 const API_CONFIGS = [
+  {
+    prefix: "/haokan",
+    items: [
+      {
+        path: "/image",
+        handle: haokanImageRouter,
+        type: API_AUTHORIZE_TYPE.PUBLIC,
+      },
+    ],
+  },
   {
     prefix: "/token",
     items: [
