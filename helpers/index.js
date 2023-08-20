@@ -65,7 +65,7 @@ const responseCatchError = ({ res, error }) => {
   console.log({ error });
   if (error?.code === 11000) {
     const field = Object.keys(error.keyValue)[0];
-    const message = `${field} is existed on our system`;
+    const message = `${field} "${error.keyValue[field]}" is existed on our system`;
     responseJson({
       res,
       statusCode: 400,

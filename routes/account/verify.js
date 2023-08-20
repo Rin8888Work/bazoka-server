@@ -7,7 +7,7 @@ const {
 } = require("../../helpers");
 const moment = require("moment");
 const { CODE_TYPE } = require("../../config/codeType");
-const { createToken } = require("../../helpers/jwt");
+const { createToken, createRefreshToken } = require("../../helpers/jwt");
 const { validateDynamicFields } = require("../../helpers/validateReq");
 const addDefaultScreensForAccount = require("../../utils/addDefaultScreensForAccount");
 
@@ -36,6 +36,7 @@ router.post(
       const user = await User.findOne({
         $or: [{ username }, { email: username }],
       });
+
       if (!user) {
         return responseJson({
           res,
@@ -71,10 +72,12 @@ router.post(
       switch (codeType) {
         case CODE_TYPE.SIGNUP:
           user.isVerify = true;
+          user.verificationCode = "";
+          user.codeType = "";
           await user.save();
           const userWithScreens = await addDefaultScreensForAccount({
             res,
-            username,
+            username: user.username,
             roleCode: "USER",
             licenseCode: "FREE",
           });
@@ -99,11 +102,15 @@ router.post(
             ])
           );
 
+          const refreshToken = createRefreshToken({
+            userId: userWithScreens._id,
+          });
+
           return responseJson({
             res,
             statusCode: 200,
             message: "Xác nhận tài khoản thành công",
-            data: { user: userResponse, token },
+            data: { user: userResponse, token, refreshToken },
           });
 
         case CODE_TYPE.FORGOT_PASSWORD:
@@ -115,6 +122,8 @@ router.post(
             });
 
           user.password = await createHash(newPassword);
+          user.verificationCode = "";
+          user.codeType = "";
           user.save();
 
           return responseJson({

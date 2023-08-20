@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "main": "server.js",
   "license": "MIT",
   "scripts": {
@@ -19,6 +19,7 @@
     "moment": "^2.29.4",
     "mongoose": "^7.3.1",
     "nodemailer": "^6.9.3",
+    "qs": "^6.11.2",
     "request": "^2.88.2"
   },
   "devDependencies": {

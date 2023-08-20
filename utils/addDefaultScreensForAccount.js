@@ -83,7 +83,9 @@ module.exports = async ({ res, username, roleCode, licenseCode }) => {
   user.license = licenseObj._id;
   await user.save();
 
-  const userResponse = await User.findOne({})
+  const userResponse = await User.findOne({
+    $or: [{ username }, { email: username }],
+  })
     .populate({ path: "role" })
     .populate({ path: "license" })
     .populate({
