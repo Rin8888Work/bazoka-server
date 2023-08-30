@@ -1,12 +1,10 @@
 // routes/signup.js
 const express = require("express");
-const { User } = require("../../models/UserSchema");
 const {
   responseJson,
   generateVerificationCode,
   createHash,
   responseCatchError,
-  convertIdToObjectId,
 } = require("../../helpers");
 const router = express.Router();
 const { sendVerificationEmail } = require("../../helpers/gmailClient");
@@ -14,32 +12,46 @@ const { CODE_TYPE } = require("../../config/codeType");
 const { validateDynamicFields } = require("../../helpers/validateReq");
 const { Role } = require("../../models/RoleSchema");
 const { License } = require("../../models/LicenseSchema");
+const { User } = require("../../models/UserSchema");
 
 router.post(
   "/",
   validateDynamicFields(["username", "email", "password"]),
   async (req, res) => {
     try {
-      const { username, email, password } = req.body;
-      const hashedPassword = await createHash(password);
+      const { username, email, password, uuidBaseboard, referralCode } =
+        req.body;
+      const hashedPassword = await createHash(password.trim());
       const { verificationCode, codeExpireTime } = generateVerificationCode();
 
       const role = await Role.findOne({ code: "USER" });
-      const license = await License.findOne({ code: "FREE" });
+      const licenses = await License.find({
+        code: { $in: ["DOWNLOAD_FREE", "PROFILE_FREE", "EDIT_VIDEO_FREE"] },
+      }).select("_id");
 
-      const user = new User({
-        username,
-        email,
+      let userData = {
+        refCode: `${uuidBaseboard}_${verificationCode}`,
+        uuidBaseboard,
+        username: username.trim(),
+        email: email.trim(),
         password: hashedPassword,
         isVerify: false,
         verificationCode,
         codeExpireTime,
         codeType: CODE_TYPE.SIGNUP,
-        license: license._id,
+        license: licenses,
         role: role._id,
-      });
+      };
 
-      // Lưu user vào database
+      if (referralCode) {
+        const refUser = await User.findOne({
+          refCode: referralCode,
+        });
+        if (refUser._id) userData.refUser = refUser._id;
+      }
+
+      const user = new User(userData);
+
       await user.save();
 
       // Gửi email xác nhận

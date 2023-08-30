@@ -61,6 +61,8 @@ router.post("/", validateDynamicFields(["refreshToken"]), async (req, res) => {
         "role",
         "license",
         "isInit",
+        "refCode",
+        "refUser",
       ])
     );
 

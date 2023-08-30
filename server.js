@@ -5,6 +5,7 @@ const cors = require("cors");
 const { API_CONFIGS } = require("./config/api");
 const { responseJson } = require("./helpers");
 const verifyRequest = require("./helpers/verifyRequest");
+require("./helpers/telegramBot");
 
 const app = express();
 const port = 3000;

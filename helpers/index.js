@@ -12,7 +12,8 @@ const {
   UNAUTHORIZED,
 } = require("../config/errorCode");
 const { default: mongoose } = require("mongoose");
-
+const CryptoJS = require("crypto-js");
+const { Hash } = require("../models/hashSchema");
 const responseJson = ({
   res,
   statusCode = 200,
@@ -20,6 +21,7 @@ const responseJson = ({
   error = "",
   status = "",
   data = {},
+  errorCode,
 }) => {
   if (!status) {
     switch (statusCode) {
@@ -54,11 +56,11 @@ const responseJson = ({
   }
 
   return res.status(statusCode).json({
-    status,
+    status: errorCode ? errorCode : status,
     statusCode,
     message,
     error,
-    data,
+    data: data || {},
   });
 };
 const responseCatchError = ({ res, error }) => {
@@ -96,7 +98,7 @@ const responseCatchError = ({ res, error }) => {
   }
 };
 
-const convertIdToObjectId = async (res, id) => {
+const convertIdToObjectId = (res, id) => {
   try {
     return new mongoose.Types.ObjectId(id);
   } catch (error) {
@@ -107,7 +109,112 @@ const convertIdToObjectId = async (res, id) => {
     });
   }
 };
+
+function encrypt(text) {
+  const cipher = crypto.createCipher("aes-256-cbc", process.env.CRYPTO_SECRET);
+  let encrypted = cipher.update(text, "utf8", "base64");
+  encrypted += cipher.final("base64");
+  return encrypted;
+}
+
+function decrypt(encryptedText) {
+  const decipher = crypto.createDecipher(
+    "aes-256-cbc",
+    process.env.CRYPTO_SECRET
+  );
+  let decrypted = decipher.update(encryptedText, "base64", "utf8");
+  decrypted += decipher.final("utf8");
+  return decrypted;
+}
+
+function encrypt(value) {
+  const ciphertext = CryptoJS.AES.encrypt(
+    JSON.stringify(value),
+    process.env.CRYPTO_SECRET
+  ).toString();
+  return ciphertext;
+}
+
+// Hàm giải mã
+function decrypt(value) {
+  const bytes = CryptoJS.AES.decrypt(value, process.env.CRYPTO_SECRET);
+  const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+  return JSON.parse(decryptedData);
+}
+
+const getTelegramEvent = async ({ event, callbackData = {} }) => {
+  const actions = event?.actions;
+
+  if (!actions) {
+    return null;
+  }
+
+  const inlineKeyboard = await Promise.all(
+    Object.keys(actions).map(async (k) => {
+      const { text, code } = actions[k];
+      const hash = new Hash({
+        hash: encrypt({
+          ...callbackData,
+          event: event.code,
+          action: code,
+        }),
+      });
+      await hash.save();
+
+      return [
+        {
+          text,
+          callback_data: hash._id,
+        },
+      ];
+    })
+  );
+
+  return {
+    reply_markup: {
+      inline_keyboard: inlineKeyboard,
+    },
+  };
+};
+
+const getTelegramReplyEvent = async ({ event, callbackData = {} }) => {
+  const actions = event?.actions;
+
+  if (!actions) {
+    return null;
+  }
+
+  const inlineKeyboard = await Promise.all(
+    Object.keys(actions).map(async (k) => {
+      const { text, code } = actions[k];
+      const hash = new Hash({
+        hash: encrypt({
+          ...callbackData,
+          event: event.code,
+          action: code,
+        }),
+      });
+      await hash.save();
+
+      return [
+        {
+          text,
+          callback_data: hash._id,
+        },
+      ];
+    })
+  );
+
+  return {
+    inline_keyboard: inlineKeyboard,
+  };
+};
+
 module.exports = {
+  getTelegramReplyEvent,
+  encrypt,
+  decrypt,
+  getTelegramEvent,
   convertIdToObjectId,
   getFieldsFromModel: (model, fields) => {
     const result = {};

@@ -48,6 +48,7 @@ router.put("/", async (req, res) => {
       "role",
       "license",
       "screens",
+      "refCode",
     ]);
 
     responseJson({

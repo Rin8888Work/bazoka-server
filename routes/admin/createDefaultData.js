@@ -27,10 +27,10 @@ router.post("/", async (req, res) => {
       });
     });
 
-    const addLicensesPromise = licensesDefault.map(({ name, code }) => {
+    const addLicensesPromise = licensesDefault.map((licenseItem) => {
       return new Promise(async (resolve, reject) => {
         try {
-          const license = new License({ name, code });
+          const license = new License({ ...licenseItem });
           await license.save();
           resolve();
         } catch (error) {
@@ -82,35 +82,44 @@ async function createScreen(screenData, parent) {
     licenseAccess,
     order,
   } = screenData;
-  const roles = await Role.find({ code: { $in: roleAccess } });
-  const licenses = await License.find({ code: { $in: licenseAccess } });
+  try {
+    const roles = await Role.find({ code: { $in: roleAccess } }).select("_id");
+    const licenses = await License.find({
+      code: { $in: licenseAccess },
+    }).select("_id");
 
-  const screen = new Screen({
-    name,
-    code,
-    order,
-    screenPath,
-    prefixPath,
-    description,
-    parent,
-    roleAccess: roles?.map((r) => r._id),
-    licenseAccess: licenses?.map((p) => p._id),
-  });
+    const _roleAccess = roles?.map((r) => r._id);
+    const _licenseAccess = licenses?.map((r) => r._id);
 
-  await screen.save();
-
-  if (children && children.length > 0) {
-    const createScreensPromise = children.map(async (childData) => {
-      return new Promise(async (resolve, reject) => {
-        try {
-          await createScreen(childData, screen._id);
-          resolve();
-        } catch (error) {
-          reject(error);
-        }
-      });
+    const screen = new Screen({
+      name,
+      code,
+      order,
+      screenPath,
+      prefixPath,
+      description,
+      parent,
+      rolesAccess: _roleAccess,
+      licensesAccess: _licenseAccess,
     });
-    await Promise.all(createScreensPromise);
+
+    await screen.save();
+
+    if (children && children.length > 0) {
+      const createScreensPromise = children.map(async (childData) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            await createScreen(childData, screen._id);
+            resolve();
+          } catch (error) {
+            reject(error);
+          }
+        });
+      });
+      await Promise.all(createScreensPromise);
+    }
+  } catch (error) {
+    console.log({ error });
   }
 }
 

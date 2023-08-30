@@ -36,4 +36,20 @@ module.exports = {
       next();
     };
   },
+
+  validateDynamicFieldsGetMethod: (requiredFields) => {
+    return (req, res, next) => {
+      const missingFields = requiredFields.filter((field) => !req.query[field]);
+
+      if (missingFields.length > 0) {
+        return responseJson({
+          res,
+          statusCode: 400,
+          message: `Thiếu các trường bắt buộc: ${missingFields.join(", ")}`,
+        });
+      }
+
+      next();
+    };
+  },
 };

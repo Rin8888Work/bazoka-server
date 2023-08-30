@@ -38,15 +38,15 @@ module.exports = {
         },
       ],
     },
-    {
-      name: "Tổng quan",
-      order: 2,
+    // {
+    //   name: "Tổng quan",
+    //   order: 2,
 
-      code: "HOME",
-      screenPath: "/home",
-      roleAccess: ["ADMIN", "USER"],
-      licenseAccess: ["FREE", "PAID"],
-    },
+    //   code: "HOME",
+    //   screenPath: "/home",
+    //   roleAccess: ["ADMIN", "USER"],
+    //   licenseAccess: ["FREE", "PAID"],
+    // },
     // {
     //   name: "Video",
     //   order: 3,
@@ -140,7 +140,7 @@ module.exports = {
     },
     {
       name: "Cài đặt",
-      order: 4,
+      order: 5,
       code: "SETTINGS",
       roleAccess: ["ADMIN", "USER"],
       prefixPath: "/settings",
@@ -162,6 +162,13 @@ module.exports = {
         //   licenseAccess: ["FREE", "PAID"],
         // },
       ],
+    },
+    {
+      name: "Phần thưởng",
+      order: 4,
+      code: "AFFILIATE",
+      screenPath: "/affiliate",
+      roleAccess: ["USER"],
     },
   ],
 };

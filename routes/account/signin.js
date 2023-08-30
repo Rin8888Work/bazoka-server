@@ -5,10 +5,13 @@ const {
   responseJson,
   compareHash,
   getFieldsFromModel,
+  generateVerificationCode,
 } = require("../../helpers");
 const { createToken, createRefreshToken } = require("../../helpers/jwt");
 const { validateDynamicFields } = require("../../helpers/validateReq");
 const { UNVERIFY_ACCOUNT } = require("../../config/errorCode");
+const { sendVerificationEmail } = require("../../helpers/gmailClient");
+const { UserOverview } = require("../../models/UserOverviewSchema");
 
 const router = express.Router();
 
@@ -55,10 +58,16 @@ router.post(
       }
 
       if (!user.isVerify) {
+        const { verificationCode, codeExpireTime } = generateVerificationCode();
+        await sendVerificationEmail(user.email, verificationCode);
+        user.verificationCode = verificationCode;
+        user.codeExpireTime = codeExpireTime;
+        user.save();
         return responseJson({
+          data: { email: user.email },
           res,
-          statusCode: 403,
-          message: "Tài khoản chưa được xác minh",
+          statusCode: 400,
+          message: `Tài khoản chưa được xác minh. Kiểm tra mã trong email ${user.email} để xác nhận.`,
           errorCode: UNVERIFY_ACCOUNT,
         });
       }
@@ -76,6 +85,8 @@ router.post(
         "role",
         "license",
         "screens",
+        "refCode",
+        "refUser",
       ]);
       const token = createToken(
         getFieldsFromModel(user, [
@@ -86,15 +97,25 @@ router.post(
           "role",
           "license",
           "isInit",
+          "refCode",
+          "refUser",
         ])
       );
       // Create the refresh token
       const refreshToken = createRefreshToken({ userId: user._id });
 
+      const userOverview = await UserOverview.findOne({ username }).select(
+        "trialTime paidTime"
+      );
       responseJson({
         res,
         statusCode: 200,
-        data: { token, refreshToken, user: userResponse },
+        data: {
+          token,
+          refreshToken,
+          user: userResponse,
+          userOverview: userOverview || {},
+        },
       });
     } catch (error) {
       console.log(error);

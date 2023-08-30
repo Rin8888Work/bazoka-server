@@ -10,6 +10,7 @@ const { CODE_TYPE } = require("../../config/codeType");
 const { createToken, createRefreshToken } = require("../../helpers/jwt");
 const { validateDynamicFields } = require("../../helpers/validateReq");
 const addDefaultScreensForAccount = require("../../utils/addDefaultScreensForAccount");
+const { Wallet } = require("../../models/WalletSchema");
 
 const router = express.Router();
 
@@ -75,11 +76,17 @@ router.post(
           user.verificationCode = "";
           user.codeType = "";
           await user.save();
+          const walletInfo = {
+            username: user.username,
+          };
+          const wallet = new Wallet(walletInfo);
+          await wallet.save();
+
           const userWithScreens = await addDefaultScreensForAccount({
             res,
             username: user.username,
             roleCode: "USER",
-            licenseCode: "FREE",
+            licenseCode: "DOWNLOAD_FREE,PROFILE_FREE,EDIT_VIDEO_FREE",
           });
 
           const userResponse = getFieldsFromModel(userWithScreens, [
@@ -90,6 +97,8 @@ router.post(
             "role",
             "license",
             "screens",
+            "refCode",
+            "refUser",
           ]);
           const token = createToken(
             getFieldsFromModel(userWithScreens, [
@@ -99,6 +108,8 @@ router.post(
               "isVerify",
               "role",
               "license",
+              "refCode",
+              "refUser",
             ])
           );
 

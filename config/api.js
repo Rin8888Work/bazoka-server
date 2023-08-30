@@ -4,6 +4,11 @@ const signinRouter = require("../routes/account/signin");
 const verifyRouter = require("../routes/account/verify");
 const sendCodeRouter = require("../routes/account/sendCode");
 const updateAccountRouter = require("../routes/account/update");
+const overviewAccountRouter = require("../routes/account/overview");
+const updateOverviewAccountRouter = require("../routes/account/updateOverview");
+const decreaseDownloadRouter = require("../routes/account/decreaseDownload");
+const updateSettingAccountRouter = require("../routes/account/settings/update");
+const getSettingAccountRouter = require("../routes/account/settings/get");
 
 // Role api route
 const createRoleRouter = require("../routes/admin/role/create");
@@ -26,6 +31,7 @@ const updateLicenseRouter = require("../routes/admin/license/update");
 const deleteLicenseRouter = require("../routes/admin/license/delete");
 const itemLicenseRouter = require("../routes/admin/license/item");
 const listLicenseRouter = require("../routes/admin/license/list");
+const userListLicenseRouter = require("../routes/admin/license/userLicenses");
 
 const imageRouter = require("../routes/image/get");
 
@@ -42,6 +48,18 @@ const applyScreenDefaultForAccountRouter = require("../routes/admin/applyScreenD
 
 const refreshTokenRouter = require("../routes/token/refresh");
 
+// affiliate api route
+const listAffiliateRouter = require("../routes/affiliate/list");
+const createAffiliateRouter = require("../routes/affiliate/create");
+const updateAffiliateRouter = require("../routes/affiliate/update");
+
+const itemWalletRouter = require("../routes/wallet/item");
+const listTransactionRouter = require("../routes/transactions/list");
+const createTransactionRouter = require("../routes/transactions/create");
+
+const teleBotRouter = require("../routes/teleBot");
+const createRequestPayoutRouter = require("../routes/requestPayout/create");
+
 // API authorizeType
 const API_AUTHORIZE_TYPE = {
   PUBLIC: "PUBLIC",
@@ -51,6 +69,71 @@ const API_AUTHORIZE_TYPE = {
 };
 
 const API_CONFIGS = [
+  {
+    prefix: "/request-payout",
+    items: [
+      {
+        path: "/create",
+        handle: createRequestPayoutRouter,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
+      },
+    ],
+  },
+  {
+    prefix: "/tele-bot",
+    items: [
+      {
+        path: "/",
+        handle: teleBotRouter,
+        type: API_AUTHORIZE_TYPE.PUBLIC,
+      },
+    ],
+  },
+  {
+    prefix: "/wallet",
+    items: [
+      {
+        path: "/item",
+        handle: itemWalletRouter,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
+      },
+    ],
+  },
+  {
+    prefix: "/transactions",
+    items: [
+      {
+        path: "/create",
+        handle: createTransactionRouter,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
+      },
+      {
+        path: "/list",
+        handle: listTransactionRouter,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
+      },
+    ],
+  },
+  {
+    prefix: "/affiliate",
+    items: [
+      {
+        path: "/list",
+        handle: listAffiliateRouter,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
+      },
+      {
+        path: "/create",
+        handle: createAffiliateRouter,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
+      },
+      {
+        path: "/update",
+        handle: updateAffiliateRouter,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
+      },
+    ],
+  },
   {
     prefix: "/image",
     items: [
@@ -93,6 +176,36 @@ const API_CONFIGS = [
         path: "/update",
         handle: updateAccountRouter,
         type: API_AUTHORIZE_TYPE.AUTHORIZE,
+      },
+      {
+        path: "/get-setting-account",
+        handle: getSettingAccountRouter,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
+      },
+      {
+        path: "/update-setting-account",
+        handle: updateSettingAccountRouter,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
+      },
+    ],
+  },
+  {
+    prefix: "/account-overview",
+    items: [
+      {
+        path: "/get",
+        handle: overviewAccountRouter,
+        type: API_AUTHORIZE_TYPE.PUBLIC,
+      },
+      {
+        path: "/update",
+        handle: updateOverviewAccountRouter,
+        type: API_AUTHORIZE_TYPE.PUBLIC,
+      },
+      {
+        path: "/decrease-download",
+        handle: decreaseDownloadRouter,
+        type: API_AUTHORIZE_TYPE.PUBLIC,
       },
     ],
   },
@@ -192,12 +305,17 @@ const API_CONFIGS = [
       {
         path: "/item",
         handle: itemLicenseRouter,
-        type: API_AUTHORIZE_TYPE.ADMIN,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
       },
       {
         path: "/list",
         handle: listLicenseRouter,
-        type: API_AUTHORIZE_TYPE.ADMIN,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
+      },
+      {
+        path: "/user",
+        handle: userListLicenseRouter,
+        type: API_AUTHORIZE_TYPE.AUTHORIZE,
       },
     ],
   },
@@ -237,7 +355,7 @@ const API_CONFIGS = [
       {
         path: "/apply-default-screens-for-account",
         handle: applyScreenDefaultForAccountRouter,
-        type: API_AUTHORIZE_TYPE.ADMIN,
+        type: API_AUTHORIZE_TYPE.INIT,
       },
     ],
   },
